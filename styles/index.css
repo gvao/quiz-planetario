@@ -7,8 +7,8 @@
 
 :root {
     /* Colors */
-    --color-primary: rgb(175, 175, 175);
-    --color-secondary: rgb(71, 71, 71);
+    --color-primary: rgb(128 76 205);
+    --color-secondary: rgb(0 48 137);
     --color-black: rgb(0,0,0);
     --color-success: rgb(87 178 87);
     --color-warning: rgb(240 100 49);
@@ -41,19 +41,21 @@ html {
 }
 
 body {
-    background-color: var(--bg-primary);
+    /* background-color: var(--bg-primary); */
     color: var(--color-primary);
 
     font-family: sans-serif, Arial, Helvetica ;
+
+    background-image: url("../images/nature-night-sky-star.jpeg");
 }
 
 main {
-    width: 90%;
+    width: 100%;
     max-width: 690px;
     margin: 8px auto;
 
-    border-radius: 8px;
-    /* border: 1px solid var(--color-primary); */
+    border-radius: var(--default-radius);
+    background-color: rgba(0, 0, 0, .8);
 
     box-shadow: 4px 4px 4px 0px rgb(21 21 21 / 39%);
     overflow: hidden;
