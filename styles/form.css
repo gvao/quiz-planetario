@@ -1,0 +1,49 @@
+form {
+    padding: var(--default-pad);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--default-gap);
+}
+
+form section {
+    border-bottom: 1px solid rgba(196, 194, 194, 0.6);
+
+    /* padding: var(--default-pad); */
+    padding-bottom: var(--medium-pad);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.answears {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--medium-pad);
+}
+
+.answears label {
+    /* flex-grow: 1; */
+    flex-basis: 40%;
+
+    padding: var(--min-pad);
+
+    display: flex;
+    gap: var(--medium-pad);
+}
+
+.answears-correct {
+    color: var(--color-success);
+    font-weight: bold;
+    
+    border: 2px solid ;
+    border-radius: var(--default-radius);
+}
+.answears-incorrect {
+    color: var(--color-warning);
+
+    border: 2px solid ;
+    border-radius: var(--default-radius);
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="styles/index.css">
+
+    <title>Quizão</title>
+</head>
+
+<body>
+
+    <main>
+        
+        <header class="infos">
+            <h1>Quizão planetário</h1>
+
+            <div class="infos-player">
+                <p id="name" class="hidden" >Nome: <span></span></p>
+                <p id="score" >Pontuação: <span>0</span></p>
+
+            </div>
+
+        </header>
+
+        <form >
+            <!-- <section>
+                <p class="question" >Pergunta alguma coisa para decidir aqui:</p>
+                
+                <div class="answears">
+                    <label>
+                        <input type="radio" name="inputQuestion1" value="A">
+                        <span>Primeira resposta</span>
+                    </label>
+                    
+                    <label>
+                        <input type="radio" name="inputQuestion1" value="B">
+                        <span>Segunda resposta</span>
+                    </label>
+                </div>
+            </section> -->
+            
+            <button type="submit">Enviar</button>
+        </form>
+
+        <div class="popup-wrap">
+            <div class="popup">
+                <div class="popup-close">x</div>
+
+                <div class="popup-content">
+                    <form class="popup-form">
+                        <label for="whatsName">Qual seu nome?</label>
+                        <input type="text" name="whatsName" id="whatsName" autofocus>
+                        <button type="submit">Pronto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
+    <script src="popup.js"></script>
+
+</body>
+
+</html>

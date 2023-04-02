@@ -1,0 +1,6 @@
+input {
+    padding: var(--medium-pad) var(--default-pad);
+    outline: none;
+    border: none;
+    border-radius: var(--default-radius);
+}

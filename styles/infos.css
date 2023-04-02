@@ -1,0 +1,43 @@
+.infos {
+    /* border: 2px solid; */
+
+    background-color: var(--bg-secondary);
+    color: var(--color-secondary);
+    width: 100%;
+    padding: var(--default-pad);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--default-pad);
+}
+
+.infos > h1 {
+    text-align: center;
+}
+
+.infos span {
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.infos-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: var(--default-pad);
+}
+
+.infos-player p {
+    display: flex;
+    flex-direction: column;
+
+} 
+
+.infos-player p span {
+    padding-left: var(--medium-pad);
+
+}
+
+.hidden {
+    display: none;
+}
