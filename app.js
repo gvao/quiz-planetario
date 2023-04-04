@@ -1,17 +1,3 @@
-/*
-Este exercício será um pouquinho diferente dos anteriores.
-
-Seu desafio é desenvolver uma versão do quiz que:
-
-- Aborda um tema diferente (não pode ser de filmes);
-- Tem um tema de cores diferente do que foi apresentado na aula;
-- Exibe na tela a pontuação que o usuário fez. Não há certo ou errado, apenas faça. Essa exibição de pontos é uma das implementações que faremos na próxima aula =D
-
-Independente se você já fez o quiz dos filmes enquanto acompanhava a aula, busque fazer esse exercício sem rever partes da aula.
-
-É importante que a sua versão do quiz seja feita apenas com o conteúdo que vimos até aqui.
-*/
-
 const user = {
     name: null,
     score: 0,
@@ -20,17 +6,17 @@ const user = {
 
         const span = $name.querySelector('span')
         $name.classList.remove('hidden')
-        setTextElemento(span, this.name)
+        span.textContent = this.name
     },
     setScore(point) {
         this.score += point
         const span = $score.querySelector('span')
-        setTextElemento(span, this.score)
+        span.textContent = this.score
     },
     addScore(point) {
         const currentScore = this.score += point
         const span = $score.querySelector('span')
-        setTextElemento(span, currentScore)
+        span.textContent = currentScore
     },
     clearScore() {
         this.score = 0
@@ -75,10 +61,6 @@ const $feedback = createElement('p', '', {
 })
 const $header = document.querySelector('header')
 
-function setTextElemento(elemento, content) {
-    elemento.textContent = content
-}
-
 function createElement(tagName = 'div', content = '', attributes = {}) {
     const $element = document.createElement(tagName)
     $element.textContent = content
@@ -97,37 +79,30 @@ function getIndexCorrectAnswear (array=[], textFinder = null) {
 const insertQuestion = ({ question, answears,  correctAnswear }, index) => {
 
     const $section = createElement('section')
-
-    // const $question = document.createElement('p')
-    // $question.setAttribute('class', 'question')
-    // $question.textContent = question
     const $question = createElement('p', question, { class: 'question' })
-    $section.append($question)
-
     const $answears = createElement('div', '', { class: 'answears' })
-    // $answears.setAttribute('class', 'answears')
-    $section.append($answears)
 
-    answears.forEach((answear, i) => {
+    const insertAnswearsScreen = (answear, i) => {
         const $label = document.createElement('label')
         const $answear = document.createElement('span')
-
+        
         const $inputRadio = createElement('input', '', {
             value: i,
             type: `radio`,
             name: `inputQuestion${index}`
         })
-        // const $inputRadio = document.createElement('input')
-        // $inputRadio.value = i
-        // $inputRadio.setAttribute('type', 'radio')
-        // $inputRadio.setAttribute('name', `inputQuestion${index}`)
-        $label.append($inputRadio)
-
+        
         $answear.textContent = answear
+        
+        $label.append($inputRadio)
         $label.append($answear)
-
         $answears.append($label)
-    })
+    }
+
+    answears.forEach(insertAnswearsScreen)
+    
+    $section.append($question)
+    $section.append($answears)
 
     $button.insertAdjacentElement("beforebegin", $section)
 }
@@ -141,17 +116,24 @@ const validateQuestion = ({ answears, correctAnswear }, index) => {
 
     for (let i = 0; i < $question.length; i++) {
         const { value, parentElement } = $question[i]
+
         const valueNumber = Number(value)
+
         const correctIndex = getIndexCorrectAnswear(answears, correctAnswear)
         const isCorrectInput = valueNumber === correctIndex
 
         parentElement.setAttribute('class', '')
+
         if (isCorrectInput) {
+
             user.addScore(pointPerQuestion)
             parentElement.classList.add('answears-correct')
+
         } else if (valueNumber === Number(questionsValue)) {
+
             user.addScore(-pointPerQuestion)
             parentElement.classList.add('answears-incorrect')
+
         }
     }
 }
@@ -168,20 +150,13 @@ function insertMessageFeedback(message = '', points) {
         
         $feedback.textContent = `${message} ${counter + '%'}`
         counter++
-    }, 20)
+    }, 10)
 
 }
 
-const handlerSubmit = event => {
-    event.preventDefault()
-    
-    user.clearScore()
-
-    questions
-        .forEach(validateQuestion)
-
-        
+const insertMessage = () => {
     let message = ''
+
     if(user.score === 100) {
         message = `Parabéns você atingiu a pontuação maxíma!`
     } else {
@@ -190,6 +165,16 @@ const handlerSubmit = event => {
     
     insertMessageFeedback(message, user.score)
     scrollTo(0, 0)
+}
+
+const handlerSubmit = event => {
+    event.preventDefault()
+    
+    user.clearScore()
+
+    questions.forEach(validateQuestion)
+
+    insertMessage()
 }
 
 questions.forEach(insertQuestion)
