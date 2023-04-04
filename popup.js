@@ -18,7 +18,7 @@ $popuForm.addEventListener('submit', event => {
     event.preventDefault()
     const name = $popuForm.whatsName.value
     user.setName(name)
-    console.log(`Name atualizado`, user)
+    // console.log(`Name atualizado`, user)
     
     closePopup()
 })
