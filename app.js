@@ -11,31 +11,26 @@ Independente se você já fez o quiz dos filmes enquanto acompanhava a aula, bus
 
 É importante que a sua versão do quiz seja feita apenas com o conteúdo que vimos até aqui.
 */
-const $form = document.querySelector('form')
-const $button = document.querySelector('[type="submit"]')
-const $score = document.querySelector('#score > span')
-const $name = document.querySelector('#name > span')
-const $feedback = createElement('p', '', {
-    class: 'feedback',
-})
-
-const $fatherName = $name.parentElement
 
 const user = {
     name: null,
     score: 0,
     setName(name) {
         this.name = name
-        $fatherName.classList.remove('hidden')
-        setTextElemento($name, this.name)
+
+        const span = $name.querySelector('span')
+        $name.classList.remove('hidden')
+        setTextElemento(span, this.name)
     },
     setScore(point) {
         this.score += point
-        setTextElemento($score, this.score)
+        const span = $score.querySelector('span')
+        setTextElemento(span, this.score)
     },
     addScore(point) {
         const currentScore = this.score += point
-        setTextElemento($score, currentScore)
+        const span = $score.querySelector('span')
+        setTextElemento(span, currentScore)
     },
     clearScore() {
         this.score = 0
@@ -45,28 +40,40 @@ const user = {
 const questions = [
     {
         question: "Quantos planetas temos no sistema solar?",
-        answears: ["8 planetas", "7 planetas", "9 planetas"],
-        correctIndex: 0
+        answears: [ "7 planetas", "9 planetas", "10 planetas", "8 planetas"],
+        correctAnswear: "8 planetas",
+        correctIndex: 0,
     },
     {
         question: "Qual planeta mais distante do sol?",
-        answears: ["Netuno", "Mercurio", "Plutão"],
+        answears: ["Netuno", "Mercurio", "Plutão", "Marte"],
+        correctAnswear: "Netuno",
         correctIndex: 0
     },
     {
         question: "Como é conhecido o satelite natural da Terra?",
-        answears: ["Lua", "Nikerson", "spotnik"],
+        answears: ["Nikerson", "spotnik", "Lua", "Organike"],
+        correctAnswear: "Lua",
         correctIndex: 0
     },
     {
         question: "O planeta Terra está em qual galáxia?",
-        answears: ["Parmalate", "Via láctea", "Andromeda"],
+        answears: ["Parmalate", "Via láctea", "Andromeda", "Glax"],
+        correctAnswear: "Via láctea",
         correctIndex: 1
     },
 ]
 
 const pointPerQuestion = 100 / questions.length
 
+const $form = document.querySelector('form')
+const $button = document.querySelector('[type="submit"]')
+const $score = document.querySelector('#score')
+const $name = document.querySelector('#name')
+const $feedback = createElement('p', '', {
+    class: 'feedback',
+})
+const $header = document.querySelector('header')
 
 function setTextElemento(elemento, content) {
     elemento.textContent = content
@@ -83,7 +90,11 @@ function createElement(tagName = 'div', content = '', attributes = {}) {
     return $element
 }
 
-const insertQuestion = ({ question, answears }, index) => {
+function getIndexCorrectAnswear (array=[], textFinder = null) {
+    return array.indexOf(textFinder)
+}
+
+const insertQuestion = ({ question, answears,  correctAnswear }, index) => {
 
     const $section = createElement('section')
 
@@ -121,7 +132,7 @@ const insertQuestion = ({ question, answears }, index) => {
     $button.insertAdjacentElement("beforebegin", $section)
 }
 
-const validateQuestion = (question, index) => {
+const validateQuestion = ({ answears, correctAnswear }, index) => {
     
     const $question = $form[`inputQuestion${index}`]
     const questionsValue = $question.value
@@ -131,7 +142,8 @@ const validateQuestion = (question, index) => {
     for (let i = 0; i < $question.length; i++) {
         const { value, parentElement } = $question[i]
         const valueNumber = Number(value)
-        const isCorrectInput = valueNumber === question.correctIndex
+        const correctIndex = getIndexCorrectAnswear(answears, correctAnswear)
+        const isCorrectInput = valueNumber === correctIndex
 
         parentElement.setAttribute('class', '')
         if (isCorrectInput) {
@@ -144,9 +156,20 @@ const validateQuestion = (question, index) => {
     }
 }
 
-function insertMessageFeedback(message = 'feedback aqui!') {
-    $feedback.textContent = message
-    $button.insertAdjacentElement('beforebegin', $feedback)
+function insertMessageFeedback(message = '', points) {
+    $header.insertAdjacentElement('beforeend', $feedback)
+    
+    let counter = 0
+
+    const interval = setInterval(() => {
+        if (counter === points) {
+            clearInterval(interval)
+        }
+        
+        $feedback.textContent = `${message} ${counter + '%'}`
+        counter++
+    }, 20)
+
 }
 
 const handlerSubmit = event => {
@@ -162,10 +185,11 @@ const handlerSubmit = event => {
     if(user.score === 100) {
         message = `Parabéns você atingiu a pontuação maxíma!`
     } else {
-        message = `Sua pontuação é ${user.score}.`
+        message = `Sua pontuação é:`
     }
     
-    insertMessageFeedback(message)
+    insertMessageFeedback(message, user.score)
+    scrollTo(0, 0)
 }
 
 questions.forEach(insertQuestion)
