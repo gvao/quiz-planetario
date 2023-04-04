@@ -61,6 +61,8 @@ const $feedback = createElement('p', '', {
 })
 const $header = document.querySelector('header')
 
+
+
 function createElement(tagName = 'div', content = '', attributes = {}) {
     const $element = document.createElement(tagName)
     $element.textContent = content
@@ -138,9 +140,7 @@ const validateQuestion = ({ answears, correctAnswear }, index) => {
     }
 }
 
-function insertMessageFeedback(message = '', points) {
-    $header.insertAdjacentElement('beforeend', $feedback)
-    
+const animationFinalScore = (points, message) => {
     let counter = 0
 
     const interval = setInterval(() => {
@@ -151,7 +151,12 @@ function insertMessageFeedback(message = '', points) {
         $feedback.textContent = `${message} ${counter + '%'}`
         counter++
     }, 10)
+}
 
+function insertMessageFeedback(message = '', points) {
+    $header.insertAdjacentElement('beforeend', $feedback)
+    
+    animationFinalScore(points, message)
 }
 
 const insertMessage = () => {
@@ -164,7 +169,12 @@ const insertMessage = () => {
     }
     
     insertMessageFeedback(message, user.score)
-    scrollTo(0, 0)
+
+    scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+    })
 }
 
 const handlerSubmit = event => {
@@ -176,6 +186,8 @@ const handlerSubmit = event => {
 
     insertMessage()
 }
+
+
 
 questions.forEach(insertQuestion)
 
