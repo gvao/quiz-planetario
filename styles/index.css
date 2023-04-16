@@ -47,6 +47,9 @@ body {
     font-family: sans-serif, Arial, Helvetica ;
 
     background-image: url("../images/nature-night-sky-star.jpeg");
+    background-repeat: no-repeat ;
+    background-position: center;
+    background-size: cover;
 }
 
 main {
